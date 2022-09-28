@@ -7,7 +7,7 @@ public class CensusAnalyserTest {
     private static final String INDIAN_CENSUS_CSV_FILE_PATH = "./src/main/resources/IndiaStateCensusData.csv";
     private static final String WRONG_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.csv";
     private static final String INDIAN_STATE_CSV_FILE = "./src/main/resources/IndiaStateCode.csv";
-    private static final String INDIAN_CENSUS_DELIMITER = "./src/main/resources/IndiaStateCensusDataDelimiter.csv";
+    private static final String INDIAN_CENSUS_DELIMITER = "./src/main/resources/CensusDataIncorrectHeader.csv";
     private static final String INDIAN_STATE_CSV_WRONG_FILE = "./src/main/resources/IndiaStateCode.txt";
     private static final String INDIAN_CENSUS_CSV_WRONG_FILE = "./src/main/resources/census.abv";
 
@@ -16,7 +16,7 @@ public class CensusAnalyserTest {
         try {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             int numOfRecords = censusAnalyser.loadIndiaCensusData(INDIAN_CENSUS_CSV_FILE_PATH);
-            Assertions.assertEquals(29, numOfRecords);
+            Assertions.assertEquals(11, numOfRecords);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -32,6 +32,19 @@ public class CensusAnalyserTest {
         } catch (CensusAnalyserException e) {
             System.out.println(e.getMessage());
             Assertions.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+        }
+    }
+    @Test
+    public void givenIndiaCodeData_WithWrongFileDelimiter_ShouldThrowException() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CensusAnalyserException.class);
+            censusAnalyser.loadIndiaCensusData(INDIAN_CENSUS_DELIMITER);
+        } catch (CensusAnalyserException e) {
+            System.out.println(e.getMessage());
+
+            Assertions.assertEquals(CensusAnalyserException.ExceptionType.INCORRECT_HEADER_OR_DELIMITER, e.type);
         }
     }
 
