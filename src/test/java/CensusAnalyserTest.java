@@ -47,5 +47,16 @@ public class CensusAnalyserTest {
             Assertions.assertEquals(CensusAnalyserException.ExceptionType.INCORRECT_HEADER_OR_DELIMITER, e.type);
         }
     }
-
+    @Test
+    public void givenIndianCensusData_WithWrongFileType_ShouldThrowException() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CensusAnalyserException.class);
+            censusAnalyser.loadIndiaCensus(INDIAN_CENSUS_CSV_WRONG_FILE);
+        } catch (CensusAnalyserException e) {
+            System.out.println(e.getMessage());
+            Assertions.assertEquals(CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE, e.type);
+        }
+    }
 }
