@@ -59,4 +59,15 @@ public class CensusAnalyserTest {
             Assertions.assertEquals(CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE, e.type);
         }
     }
+    @Test
+    public void givenIndianStateData_WithWrongHeader_ShouldThrowException() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            censusAnalyser.loadIndiaCensusData(INDIAN_STATE_CSV_FILE);
+
+        } catch (CensusAnalyserException e) {
+            System.out.println(e.getMessage());
+            Assertions.assertEquals(CensusAnalyserException.ExceptionType.INCORRECT_HEADER_OR_DELIMITER, e.type);
+        }
+    }
 }
